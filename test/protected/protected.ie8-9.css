@@ -1,0 +1,26 @@
+/*
+ * this test is for ie9 with a protected font
+ *
+ * testing based on http://www.fontspring.com/blog/further-hardening-of-the-bulletproof-syntax
+ * 
+ */
+ 
+
+
+
+
+@font-face {
+  font-family: protected-font-orig;
+  src: url(/protected/protected.orig.ie.eot); /* IE9 COMPAT MODE */ 
+  src: url(/protected/protected.orig.ie.eot?) format('embedded-opentype'), /* ie6-ie8 */
+       url(/protected/protected.orig.ttf) format('truetype');
+}
+
+
+
+@font-face {
+  font-family: protected-font-mod;
+  src: url(/protected/protected.mod.ie.eot); /* IE9 COMPAT MODE */ 
+  src: url(/protected/protected.mod.ie.eot?) format('embedded-opentype'), /* ie6- ie8 */
+       url(/protected/protected.mod.ttf) format('truetype'); /* Safari , Android , IOS */
+}

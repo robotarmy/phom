@@ -1,0 +1,102 @@
+True Type Font Embedability Guide:
+
+Hello Blazing Cloud...(ers?). Please Read the following first:
+
+This document is intended to create a mechanism so that designers
+will be able to choose 'True Type Fonts' and developers will be
+able embed them into an existing web-application - specifically
+a Rails application. The technqiues can be adopted to other web-frameworks
+with knownledge of asset delivery mechanisms.
+
+These guidelines are to intended to give a beginner confidence
+in using current (2012) webfont techniques without having to learn
+all of the technical details immediatley. 
+
+These guidelines have been designed with an existing tool in mind,
+in the event that the tool degenerates or is not availible i am
+including hand-generated tests and a tool for converting TTY to EOT
+to facilitate future movement.
+
+In order to integrate with your rails app the tool is going to 
+assume that you want to have your fonts in the following 
+directory structure:
+
+project/assets/fonts/font1.eot
+project/assets/fonts/font1.ttf
+project/assets/stylesheets/fonts.css
+
+
+The user of this tool will need to be able to understand some questions:
+
+1) Where is location of the fonts to be served relative to web server's document root?
+
+   Some exapmles could be '/assets' , 'http://cdn.com/assets', '/veganfruitshake'
+   The default for this assumes rails sprockets self-hosting and will be '/assets'
+
+   This means for 'font1.eot' the path by default will be '/assets/font1.eot'.
+
+   This is sufficent for rails integration.
+
+2) What should the font be called so as to create a reference to it in font-family?
+
+   By default the tool is going to assume that you want the filename normalized
+   in a way that permits font-family to function without quotes.
+
+   For instance the font named Sticky Mittens Ultra Light with filename
+   "sticky mittens ultra light.ttf" is going to become 
+   "sticky_mittens_ultra_light.ttf" is going to become 
+   "sticky_mittens ultra-light.ttf" is going to become 
+   "sticky_mittens-ultra light.ttf" is going to become 
+   "sticky-mittens-ultra-light".
+
+3) What web browsers are going to be supported?
+
+   This tool is assuming that Firefox, Chrome, Safari, IE8, IE9, Android and IOS Web are
+   too be supported
+
+4) What font type are going to be supported?
+
+   This tool is only going to support true-type fonts as that is currently the middle
+   of the road as far as font technologies go. It is easy to convert it to a DRM free
+   EOT for IE8/9 and TTF works in all the other major browsers. There are other font
+   formats like OTF and WOFF - OTF could be supported in the future but is not currently
+   part of the mind of this software.
+
+
+
+
+
+
+
+
+
+
+SRC URL() method:
+ IE9
+  functioning
+ IE8
+  not functioning as IE8 doesn't parse the format() section correctly
+  appending a ? to the url -addressed the issue - ie8 needs an eot
+
+ TODO:
+  http://code.google.com/p/ttf2eot/downloads/list
+
+
+
+
+
+Data-URI method:
+
+ Data-URI does not function relably for IE
+ Data-URI method for requires two @font-face for support 
+ IE is the first @font-face with EOT file
+
+ details:
+  http://www.fontspring.com/blog/the-new-bulletproof-font-face-syntax
+
+ IE9:
+  Data-uri-method functions only if the browser is told to operate in IE9 standards mode
+
+ IE8:
+  Data-uri-method will fail to resolve correct font. Support seems to extend only to images.
+
