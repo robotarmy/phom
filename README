@@ -63,6 +63,35 @@ The user of this tool will need to be able to understand some questions:
    part of the mind of this software.
 
 
+Tool design
+
+Tool is named PhoM after the navy occupational rating for mass communication specialist.
+This is a dry joke.
+
+
+Assuming
+
+./font-directory-path/font1.ttf
+./font-directory-path/font2.ttf
+./font-directory-path/font3.ttf
+
+Executing this tool as follow
+
+$ ./phom project-name ./font-directory-path
+
+Will create a directory
+
+project-name/assets/fonts/font1.ttf
+project-name/assets/fonts/font1.eot
+project-name/assets/fonts/font2.ttf
+project-name/assets/fonts/font2.eot
+project-name/assets/fonts/font3.ttf
+project-name/assets/fonts/font3.eot
+project-name/assets/stylesheets/fonts.css
+
+You can then cp the fonts and stylesheets directory into
+your rails project under ./app/assets/ 
+
 
 
 
