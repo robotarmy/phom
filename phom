@@ -1,0 +1,103 @@
+#!/usr/bin/ruby
+def halt(msg)
+    puts msg
+    exit 1
+end
+
+halt("PhoM expects to be run as follows:\n"+
+    "\t./phom project-name font-path") unless ARGV.size == 2
+
+project_name = ARGV.shift
+font_path    = ARGV.shift
+
+ASSET_DIR    = "/assets/"
+
+FONT_FACE_TEMPLATE =%%
+@font-face {
+  font-family: __FONT_FAMILY__;
+  src: url(__EOT_URL__); /* IE9 COMPAT */
+  src: url(__EOT_URL__?#IEPARSERHACK) format('embedded-opentype'), /* IE6-8 */
+       url(__TTF_URL__) format('truetype'); /* S,C,F,A,I */
+}
+%
+
+puts "\t Looking inside #{font_path} for ttf fonts..."
+fonts = Dir["./#{font_path}/**/*.ttf"]
+puts "\t Found #{fonts.count} ttf fonts..."
+
+puts "\tBuilding '#{project_name}' directories"
+af = "./#{project_name}/assets/fonts"
+as = "./#{project_name}/assets/stylesheets"
+
+require 'fileutils'
+
+[af,as].each do |dir|
+ FileUtils.mkdir_p(dir)
+end
+
+def run_cmd(cmd,abort_on_error=true)
+  response = `#{cmd}`
+  unless $?.exitstatus == 0 
+   puts("\t ERROR::::: #{response}")
+   halt("\t FATAL") if abort_on_error
+  end    
+end
+
+def normalize_fontname(fontname)
+    fontname.gsub("_","-").gsub(" ","-")
+end
+
+# this isn't totally nescissary
+# as the ie9 can use the EOT - but
+# for the sake of ease we may as well
+puts  "\t Creating installable TTF"
+fonts.each do |fontpath|
+  destination = File.join(af,
+                          normalize_fontname(
+                          File.basename(fontpath).split('.').first +
+                          '.ttf'))
+  FileUtils.cp(fontpath,destination)
+  embed_cmd = "./bin/embed  #{destination}"
+  run_cmd(embed_cmd)
+end
+
+puts "\t Creating installable EOT"
+fonts.each do |fontpath|
+  destination = File.join(af,
+                          normalize_fontname(
+                           File.basename(fontpath).split('.').first +
+                           '.eot'))
+  eot_cmd = "./bin/ttf2eot #{fontpath} > #{destination}"
+  run_cmd(eot_cmd)
+end
+
+puts "\t Creating stylesheet fonts.css"
+
+require 'stringio'
+fonts_css = StringIO.new
+fonts_css << %%
+/* 
+  Generated  : #{Time.now} by PhoM 
+  Font Count : #{fonts.count}
+
+  Have a nice day! <3
+*/
+%
+fonts.each do |fontpath|
+  fonts_css << %%
+/* original #{fontpath} */
+%
+  font_name = normalize_fontname(File.basename(fontpath).split('.').first)
+  
+  asset_ttf = File.join(ASSET_DIR,font_name + ".ttf")
+  asset_eot = File.join(ASSET_DIR,font_name + ".eot")
+  fonts_css << FONT_FACE_TEMPLATE.
+   gsub('__EOT_URL__',asset_eot).
+   gsub('__TTF_URL__',asset_ttf).
+   gsub('__FONT_FAMILY__',font_name)  
+  fonts_css << %%\n%
+end
+
+File.open(File.join(as,"fonts.css"),"wb+") do |f|
+f << fonts_css.string
+end

@@ -1,32 +1,51 @@
 #!/usr/bin/env ruby
-puts "Dur!"
+$stderr.puts "Dur! "
 if ARGV.first.nil?
-  puts 'Dur!!!!!!!! Dur!! Dur needs file path'
+  $stderr.puts 'Dur!: needs file path followed by space and then mimetype followed by a space and then font-face name'
   exit
 end
 file = ARGV.first
 unless File.exist? file
-  puts 'Dur!! Dur Sad. Dur cannot see file :('
+  $stderr.puts "Dur!: #{file} not found :("
   exit
 end
 file = ARGV.shift
-puts "Dur! Dur! Dur Happy with file!!"
 
 if ARGV.first.nil?
-  puts 'Dur!!!!!!!! Dur!! Dur need to know what is file mime type??'
+  $stderr.puts 'Dur!: needs to know what is file mime type.'
   exit
 end
-mimetype = ARGV.first
-puts "Dur! Dur! Dur Happy about mime type #{mimetype}"
-template = "url(data:__MIMETYPE__;charset=utf8;base64,__DATA__)"
+mimetype = ARGV.shift
+
+if ARGV.first.nil?
+  $stderr.puts 'Dur!: needs to know font-face name for file'
+  exit
+end
+fontface = ARGV.first
+
+$stderr.puts "Dur!: processing #{file} ; #{mimetype} into font-face #{fontface}"
+
+template = %%
+@font-face {
+  font-family: #{fontface};
+  src: url(data:__MIMETYPE__;charset=utf8;base64,__DATA__);
+}
+%
+  
 data = File.read(file)
+
 require 'base64'
 encoded_data  = Base64.strict_encode64(data) # no line feeds if strict
-puts ""
-puts "Dur Make Base64 Encoded Data URI for you - you make Dur Happy"
-2.times {
-  puts "" 
-}
-puts template.gsub('__MIMETYPE__',mimetype).gsub('__DATA__',encoded_data)
 
+2.times {
+  $stdout.puts "" 
+}
+time = Time.now
+$stdout.puts "/* __BEGIN__:#{time.to_i}"
+$stdout.puts "\tfile : #{file}"
+$stdout.puts "\tmimetype : #{mimetype}"
+$stdout.puts "\tcreation-stamp : #{time.to_s}"
+$stdout.puts "*/"
+$stdout.puts template.gsub('__MIMETYPE__',mimetype).gsub('__DATA__',encoded_data)
+$stdout.puts "/* #{time.to_i}:__END__ */"
 
