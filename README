@@ -94,6 +94,24 @@ your rails project under ./app/assets/
 
 
 
+What is included in this project?
+
+fonts-test-rails/ 
+  => A rails app with the scaffolding  modified to use fonts mentioned in fonts.css
+
+test-fonts/ 
+  => 3 free fonts in TTF format
+
+bin
+  => 64bin mac binaries 
+  => prebuilt with 4.2.1 (Based on Apple Inc. build 5658) (LLVM build 2336.11.00)
+
+bin/dur
+  => utility to generate base64 data-uri font-face
+
+lib
+  => source and a Makefile for the binary tools included in ./bin
+
 
 
 
@@ -106,6 +124,10 @@ SRC URL() method:
  IE8
   not functioning as IE8 doesn't parse the format() section correctly
   appending a ? to the url -addressed the issue - ie8 needs an eot
+
+ TODO:
+  http://code.google.com/p/ttf2eot/downloads/list
+
 
 
 

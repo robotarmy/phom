@@ -1,4 +1,10 @@
 #!/usr/bin/ruby
+
+def phom_bin(cmd)
+  phom_root = File.dirname(__FILE__)
+  File.join(phom_root, cmd)
+end
+
 def halt(msg)
     puts msg
     exit 1
@@ -22,7 +28,7 @@ FONT_FACE_TEMPLATE =%%
 %
 
 puts "\t Looking inside #{font_path} for ttf fonts..."
-fonts = Dir["./#{font_path}/**/*.ttf"]
+fonts = Dir["#{font_path}/**/*.ttf"]
 puts "\t Found #{fonts.count} ttf fonts..."
 
 puts "\tBuilding '#{project_name}' directories"
@@ -36,7 +42,7 @@ require 'fileutils'
 end
 
 def run_cmd(cmd,abort_on_error=true)
-  response = `#{cmd}`
+  response = `#{phom_bin(cmd)}`
   unless $?.exitstatus == 0 
    puts("\t ERROR::::: #{response}")
    halt("\t FATAL") if abort_on_error
