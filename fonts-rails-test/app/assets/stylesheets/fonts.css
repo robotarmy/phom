@@ -1,0 +1,57 @@
+
+/* 
+  Generated  : Wed Feb 13 16:35:54 -0800 2013 by PhoM 
+  Font Count : 5
+
+  Have a nice day! <3
+*/
+
+/* original ./test-fonts/fanwood-webfont.ttf */
+
+@font-face {
+  font-family: fanwood-webfont;
+  src: url(/assets/fanwood-webfont.eot); /* IE9 COMPAT */
+  src: url(/assets/fanwood-webfont.eot?#IEPARSERHACK) format('embedded-opentype'), /* IE6-8 */
+       url(/assets/fanwood-webfont.ttf) format('truetype'); /* S,C,F,A,I */
+}
+
+
+/* original ./test-fonts/fanwood_italic-webfont.ttf */
+
+@font-face {
+  font-family: fanwood-italic-webfont;
+  src: url(/assets/fanwood-italic-webfont.eot); /* IE9 COMPAT */
+  src: url(/assets/fanwood-italic-webfont.eot?#IEPARSERHACK) format('embedded-opentype'), /* IE6-8 */
+       url(/assets/fanwood-italic-webfont.ttf) format('truetype'); /* S,C,F,A,I */
+}
+
+
+/* original ./test-fonts/fanwood_text-webfont.ttf */
+
+@font-face {
+  font-family: fanwood-text-webfont;
+  src: url(/assets/fanwood-text-webfont.eot); /* IE9 COMPAT */
+  src: url(/assets/fanwood-text-webfont.eot?#IEPARSERHACK) format('embedded-opentype'), /* IE6-8 */
+       url(/assets/fanwood-text-webfont.ttf) format('truetype'); /* S,C,F,A,I */
+}
+
+
+/* original ./test-fonts/fanwood_text_italic-webfont.ttf */
+
+@font-face {
+  font-family: fanwood-text-italic-webfont;
+  src: url(/assets/fanwood-text-italic-webfont.eot); /* IE9 COMPAT */
+  src: url(/assets/fanwood-text-italic-webfont.eot?#IEPARSERHACK) format('embedded-opentype'), /* IE6-8 */
+       url(/assets/fanwood-text-italic-webfont.ttf) format('truetype'); /* S,C,F,A,I */
+}
+
+
+/* original ./test-fonts/raleway_thin.ttf */
+
+@font-face {
+  font-family: raleway-thin;
+  src: url(/assets/raleway-thin.eot); /* IE9 COMPAT */
+  src: url(/assets/raleway-thin.eot?#IEPARSERHACK) format('embedded-opentype'), /* IE6-8 */
+       url(/assets/raleway-thin.ttf) format('truetype'); /* S,C,F,A,I */
+}
+
