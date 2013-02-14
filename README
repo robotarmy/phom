@@ -107,10 +107,6 @@ SRC URL() method:
   not functioning as IE8 doesn't parse the format() section correctly
   appending a ? to the url -addressed the issue - ie8 needs an eot
 
- TODO:
-  http://code.google.com/p/ttf2eot/downloads/list
-
-
 
 
 
