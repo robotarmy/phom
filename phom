@@ -1,5 +1,7 @@
 #!/usr/bin/ruby
 
+VERSION="1.0.0"
+
 def phom_bin(cmd)
   phom_root = File.dirname(__FILE__)
   File.join(phom_root, cmd)
@@ -16,7 +18,9 @@ halt("PhoM expects to be run as follows:\n"+
 project_name = ARGV.shift
 font_path    = ARGV.shift
 
-ASSET_DIR    = "/assets/"
+PUBLIC_ASSET_DIR    = "/assets/phom/"
+
+INSTALL_DIR         = "/app/assets/"
 
 FONT_FACE_TEMPLATE =%%
 @font-face {
@@ -32,8 +36,8 @@ fonts = Dir["#{font_path}/**/*.ttf"]
 puts "\t Found #{fonts.count} ttf fonts..."
 
 puts "\tBuilding '#{project_name}' directories"
-af = "./#{project_name}/assets/fonts"
-as = "./#{project_name}/assets/stylesheets"
+af = "./#{project_name}/#{INSTALL_DIR}/fonts/phom/"
+as = "./#{project_name}/#{INSTALL_DIR}/stylesheets/phom/"
 
 require 'fileutils'
 
@@ -75,15 +79,16 @@ fonts.each do |fontpath|
                            '.eot'))
   eot_cmd = "./bin/ttf2eot #{fontpath} > #{destination}"
   run_cmd(eot_cmd)
+  puts "Created font #{destination}"
 end
 
-puts "\t Creating stylesheet fonts.css"
+puts "\t Creating stylesheet.."
 
 require 'stringio'
 fonts_css = StringIO.new
 fonts_css << %%
 /* 
-  Generated  : #{Time.now} by PhoM 
+  Generated  : #{Time.now} by PhoM #{VERSION}
   Font Count : #{fonts.count}
 
   Have a nice day! <3
@@ -95,15 +100,17 @@ fonts.each do |fontpath|
 %
   font_name = normalize_fontname(File.basename(fontpath).split('.').first)
   
-  asset_ttf = File.join(ASSET_DIR,font_name + ".ttf")
-  asset_eot = File.join(ASSET_DIR,font_name + ".eot")
+  asset_ttf = File.join(PUBLIC_ASSET_DIR,font_name + ".ttf")
+  asset_eot = File.join(PUBLIC_ASSET_DIR,font_name + ".eot")
   fonts_css << FONT_FACE_TEMPLATE.
    gsub('__EOT_URL__',asset_eot).
    gsub('__TTF_URL__',asset_ttf).
    gsub('__FONT_FAMILY__',font_name)  
   fonts_css << %%\n%
 end
-
-File.open(File.join(as,"fonts.css"),"wb+") do |f|
+stylesheet = File.join(as,"fonts.css")
+File.open(stylesheet,"wb+") do |f|
 f << fonts_css.string
 end
+puts "\t Created #{stylesheet}"
+
