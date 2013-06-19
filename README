@@ -1,6 +1,9 @@
 True Type Font Embedability Guide:
 
-Hello Blazing Cloud...(ers?). Please Read the following first:
+You will need to modify your application.rb in Rails to serve the fonts directory
+
+config.assets.paths << Rails.root.join("app", "assets", "fonts")
+
 
 This document is intended to create a mechanism so that designers
 will be able to choose 'True Type Fonts' and developers will be
@@ -21,9 +24,9 @@ In order to integrate with your rails app the tool is going to
 assume that you want to have your fonts in the following 
 directory structure:
 
-project/assets/fonts/font1.eot
-project/assets/fonts/font1.ttf
-project/assets/stylesheets/fonts.css
+project/assets/fonts/phom/font1.eot
+project/assets/fonts/phom/font1.ttf
+project/assets/stylesheets/phom/fonts.css
 
 
 The user of this tool will need to be able to understand some questions:
@@ -31,9 +34,9 @@ The user of this tool will need to be able to understand some questions:
 1) Where is location of the fonts to be served relative to web server's document root?
 
    Some exapmles could be '/assets' , 'http://cdn.com/assets', '/veganfruitshake'
-   The default for this assumes rails sprockets self-hosting and will be '/assets'
+   The default for this assumes rails sprockets self-hosting and will be '/assets/phom'
 
-   This means for 'font1.eot' the path by default will be '/assets/font1.eot'.
+   This means for 'font1.eot' the path by default will be '/assets/phom/font1.eot'.
 
    This is sufficent for rails integration.
 
@@ -81,16 +84,14 @@ $ ./phom project-name ./font-directory-path
 
 Will create a directory
 
-project-name/assets/fonts/font1.ttf
-project-name/assets/fonts/font1.eot
-project-name/assets/fonts/font2.ttf
-project-name/assets/fonts/font2.eot
-project-name/assets/fonts/font3.ttf
-project-name/assets/fonts/font3.eot
-project-name/assets/stylesheets/fonts.css
+project-name/app/assets/fonts/phom/font1.ttf
+project-name/app/assets/fonts/phom/font1.eot
+project-name/app/assets/fonts/phom/font2.ttf
+project-name/app/assets/fonts/phom/font2.eot
+project-name/app/assets/fonts/phom/font3.ttf
+project-name/app/assets/fonts/phom/font3.eot
+project-name/app/assets/stylesheets/phom/fonts.css
 
-You can then cp the fonts and stylesheets directory into
-your rails project under ./app/assets/ 
 
 
 
